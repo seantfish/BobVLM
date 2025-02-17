@@ -19,7 +19,7 @@ To maintain efficiency and accessibility:
 
 ## Model Shortcomings 🥲
 1. Training Data (coco mainly). The model was train on mainly coco images. Therefore the model thrives with scenes rather than close up images or animations
-2. Question Answering: Question answering is just okay. Its not the most accurate
+2. Question Answering: Question answering is just okay. Its not the most detailed
 
 
 ## Installation 🔧
