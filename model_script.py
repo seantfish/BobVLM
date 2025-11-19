@@ -14,7 +14,7 @@ load_dotenv()
 login(token = os.getenv("hf_token"))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-class BobVMLAdapter(torch.nn.Module):
+class BobVLMAdapter(torch.nn.Module):
     def __init__(self, lang_embed_dim, clip_dim):
         super().__init__()
         self.activation = torch.nn.ReLU()
@@ -75,10 +75,15 @@ class BobVLM(PreTrainedModel):
     def __init__(self,config):
         super().__init__(config)
         # Freeze vision transformer if needed
-        self.vit = CLIPVisionModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
-        self.adapter = BobVMLAdapter(config.lang_embed_dim, config.clip_dim).to(device)
+        self.vit = CLIPVisionModel.from_pretrained("openai/clip-vit-large-patch14")
+        for p in self.vit.parameters():
+            p.requires_grad = False
+        self.vit.to(device)
+        self.adapter = BobVLMAdapter(config.lang_embed_dim, config.clip_dim).to(device)
         # Freeze language model if needed
         self.language_model = AutoModelForCausalLM.from_pretrained('meta-llama/Llama-3.2-1B-Instruct',device_map='auto')
+        for p in self.language_model.parameters():
+            p.requires_grad = False
 
 
     def __extend_attention_mask(self,atten_mask, atten_to_img=True, num_added_tokens=257):

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "BobVLM"
+version = "0.1.0"
+dependencies = [
+  "torch>=2.2.1",
+  "transformers>=4.47.0",
+  "Pillow>=10.2.0"
+  "huggingface-hub>=0.19.0",
+]
+requires-python = ">=3.12"
+authors = [
+  {name = "Sean Fish", email = "seantfish@gmail.com"},
+]
+description = "Experimentation on BobVLM"
+readme = "README.md"
+
+[project.optional-dependencies]
+
+[project.urls]
+
+[project.scripts]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "src/BobVLM"
+]
