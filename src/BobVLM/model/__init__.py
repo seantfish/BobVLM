@@ -11,7 +11,7 @@ from huggingface_hub import login
 from dotenv import load_dotenv
 from transformers import PreTrainedModel, AutoModelForCausalLM, CLIPVisionModel
 load_dotenv()
-login(token = os.getenv("hf_token"))
+# login(token = os.getenv("hf_token"))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
