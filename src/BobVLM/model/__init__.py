@@ -14,7 +14,9 @@ load_dotenv()
 login(token = os.getenv("hf_token"))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 class BobVLMAdapter(torch.nn.Module):
+    """BobVLM Adapter"""
     def __init__(self, lang_embed_dim, clip_dim):
         super().__init__()
         self.activation = torch.nn.ReLU()
@@ -31,7 +33,6 @@ class BobVLMAdapter(torch.nn.Module):
         output = self.activation(x)
 
         return output
-
 
 
 class BobVLMConfig(PretrainedConfig):
@@ -69,6 +70,7 @@ class BobVLMConfig(PretrainedConfig):
         for key, value in config_dict.items():
             setattr(config, key, value)
         return config
+
 
 class BobVLM(PreTrainedModel):
     config_class = BobVLMConfig

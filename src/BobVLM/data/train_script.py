@@ -8,55 +8,11 @@ from datetime import datetime
 import json
 from PIL import Image
 import numpy as np
-#from BobVLM.model import BobVLMProcessor,BobVLMConfig,BobVLM
+from BobVLM.model import BobVLMProcessor,BobVLMConfig,BobVLM
 import functools
 from IPython.display import Javascript
 from threading import Thread
 #from peft import get_peft_config,get_peft_model,LoraConfig,TaskType, PeftModel
-
-
-    
-def load_adapter_weights(model, checkpoint_path):
-    """
-    Load adapter weights from a checkpoint file.
-    
-    Args:
-        model: The model containing the adapter
-        checkpoint_path (str): Path to the checkpoint file
-    """
-    try:
-        # Load checkpoint with CPU/GPU handling
-        if torch.cuda.is_available():
-            checkpoint = torch.load(checkpoint_path)
-        else:
-            checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
-        
-        # Load adapter state dict
-        model.adapter.load_state_dict(checkpoint['adapter_state_dict'])
-        
-        # Log information about the checkpoint
-        print(f"Successfully loaded checkpoint from step {checkpoint['step']}")
-        print(f"Checkpoint loss: {checkpoint['loss']:.4f}")
-        
-        # Verify adapter parameters are loaded
-        trainable_params = sum(p.numel() for p in model.adapter.parameters())
-        total_params = sum(p.numel() for p in model.parameters())
-        print(f"Adapter parameters loaded: {trainable_params:,}")
-        print(f"Total parameters: {total_params:,}")
-        
-        return model
-        
-    except Exception as e:
-        logger.error(f"Error loading checkpoint: {str(e)}")
-        return False
-        
-
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 
 class VLMDataset(Dataset):
